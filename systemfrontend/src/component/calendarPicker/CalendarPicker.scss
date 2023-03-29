@@ -1,0 +1,39 @@
+.calendarPicker {
+    display: flex;
+
+    .calendarPickerContainer {
+        flex: 6;
+
+        .top {
+            -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+            box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+            padding: 10px;
+            margin: 20px;
+            display: flex;
+            flex-direction: row;
+
+            h1 {
+                padding-top: 5px;
+                color: #888;
+                font-size: 20px;
+                font-weight: normal;
+            }
+        }
+        .bottom{
+            -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+            box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+            padding: 10px;
+            margin: 20px;
+        }
+    }
+}
+.add{
+    margin-left: auto;
+}
+.viewButton {
+    padding: 2px 3px;
+    border-radius: 5px;
+    color: green;
+    border: 1px solid green;
+    cursor: pointer;
+}

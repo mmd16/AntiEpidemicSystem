@@ -1,0 +1,38 @@
+.popup {
+    display: flex;
+    width: 100%;
+
+    .listContainer {
+        flex: 6;
+    }
+}
+
+.dialogTitle {
+    color: #888;
+    font-size: 20px;
+    font-weight: normal;
+}
+
+.qqq {
+    display: flex;
+    flex-direction: row;
+}
+
+.dialogWrapper{
+    top: 0;
+}
+
+.buttonStyle {
+    padding-right: 20px;
+    padding-right: 20px;
+    margin-left: auto;
+    cursor: pointer;
+    border: none;
+    background-color: white;
+    justify-content: space-between;
+}
+
+button:hover {
+    background-color: rgb(156, 156, 156);
+   
+}
