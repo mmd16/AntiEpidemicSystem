@@ -6,10 +6,12 @@ import { useForm } from 'react-hook-form';
 import 'react-toastify/dist/ReactToastify.css';
 import * as yup from "yup";
 import { CommonContext } from '../../Common';
-import { removeSuccess, updateSuccess, updateForbidden} from '../toast/Toast.jsx';
+import { removeSuccess, updateSuccess, updateForbidden } from '../toast/Toast.jsx';
 import './Event.scss';
 
 const UpdateEvent = (props) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
     const { setCalState } = CommonContext()
     const { setOpenPopup, selectedEvent } = props;
     const onSubmit = (event) => {
@@ -27,19 +29,19 @@ const UpdateEvent = (props) => {
         axios.get(`http://localhost:8080/api/event/checkIsEditable?id=${selectedEvent.id}`, config)
             .then(res => {
                 console.log(res)
-                if(res.data === true){
+                if (res.data === true) {
                     axios.post('http://localhost:8080/api/event/updateEvent', data, config)
-                    .then(res => {
-                        console.log(res)
-                        setCalState(prev => prev + 1)
-                        setOpenPopup(false)
-                        updateSuccess()
-                    })
-                    .catch(err => {
-                        console.log(err)
-                    })
+                        .then(res => {
+                            console.log(res)
+                            setCalState(prev => prev + 1)
+                            setOpenPopup(false)
+                            updateSuccess()
+                        })
+                        .catch(err => {
+                            console.log(err)
+                        })
                 }
-                else{
+                else {
                     setOpenPopup(false)
                     updateForbidden()
                 }
@@ -58,28 +60,28 @@ const UpdateEvent = (props) => {
         const data = new FormData();
         data.append('id', selectedEvent.id);
         axios.get(`http://localhost:8080/api/event/checkIsEditable?id=${selectedEvent.id}`, config)
-        .then(res => {
-            console.log(res)
-            if(res.data === true){
-                axios.post('http://localhost:8080/api/event/removeEvent', data, config)
-                .then(res => {
-                    console.log(res)
-                    setCalState(prev => prev + 1)
+            .then(res => {
+                console.log(res)
+                if (res.data === true) {
+                    axios.post('http://localhost:8080/api/event/removeEvent', data, config)
+                        .then(res => {
+                            console.log(res)
+                            setCalState(prev => prev + 1)
+                            setOpenPopup(false)
+                            removeSuccess()
+                        })
+                        .catch(err => {
+                            console.log(err)
+                        })
+                }
+                else {
                     setOpenPopup(false)
-                    removeSuccess()
-                })
-                .catch(err => {
-                    console.log(err)
-                })
-            }
-            else{
-                setOpenPopup(false)
-                updateForbidden()
-            }
-        })
-        .catch(err => {
-            console.log(err)
-        })
+                    updateForbidden()
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
     const formatDate = (date) => {
@@ -88,18 +90,17 @@ const UpdateEvent = (props) => {
     }
     const schema = yup.object({
         title: yup.string().min(1, 'This field is required'),
-        start: yup.date().nullable().default(undefined)
-            .transform((curr, orig) => orig === '' ? null : curr)
-            .typeError("Invalid Date")
-            .min(new Date(), 'Please choose future time')
-            .required('This field is required'),
+        start: yup.date()
+            .typeError("This field is required")
+            .min(today, 'Please choose future time')
+            .max(yup.ref('leaveEndDate'),
+                "Event start date can't be after end date"),
         end: yup
-            .date().nullable().default(undefined)
-            .transform((curr, orig) => orig === '' ? null : curr)
-            .typeError("Invalid Date").min(
-                yup.ref('start'),
-                "Event end time can't be before start time"
-            ).required('This field is required'),
+            .date()
+            .typeError("This field is required").min(
+                yup.ref('leaveStartDate'),
+                "Event end date can't be before start date"
+            ),
     })
 
     const { register, handleSubmit, formState } = useForm({ resolver: yupResolver(schema) })
@@ -161,9 +162,9 @@ const UpdateEvent = (props) => {
                     />
                     <div style={{ color: "red" }}>{errors.end?.message}</div>
                 </div>
-                <div className="buttonClass">
-                    <button>Update</button>
-                    <button type="button" onClick={remove}>Remove</button>
+                <div>
+                    <button style={{ marginRight: "15px" }}>Update</button>
+                    <button onClick={remove}>Remove</button>
                 </div>
             </form>
         </div>
