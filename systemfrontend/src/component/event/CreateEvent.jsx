@@ -44,12 +44,12 @@ const CreateEvent = (props) => {
         start: yup.date()
             .typeError("This field is required")
             .min(today, 'Please choose future time')
-            .max(yup.ref('leaveEndDate'),
+            .max(yup.ref('end'),
                 "Event start date can't be after end date"),
         end: yup
             .date()
             .typeError("This field is required").min(
-                yup.ref('leaveStartDate'),
+                yup.ref('start'),
                 "Event end date can't be before start date"
             ),
     })

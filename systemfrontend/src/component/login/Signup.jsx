@@ -184,7 +184,7 @@ const Signup = () => {
                                     name="emergencyEmail"
                                     control={control}
                                 />
-                                <div style={{ color: "red" }}>{errors.email?.message}</div>
+                                <div style={{ color: "red" }}>{errors.emergencyEmail?.message}</div>
                             </Grid>
                             <Grid item xs={12}>
                                 <Controller
