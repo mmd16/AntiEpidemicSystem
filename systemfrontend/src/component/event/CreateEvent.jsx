@@ -1,4 +1,3 @@
-
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from 'axios';
 import React from 'react';
@@ -12,6 +11,8 @@ import './Event.scss';
 
 
 const CreateEvent = (props) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
     const { setCalState } = CommonContext()
     const { setOpenPopup } = props;
     const onSubmit = (event) => {
@@ -40,18 +41,17 @@ const CreateEvent = (props) => {
 
     const schema = yup.object({
         title: yup.string().min(1, 'This field is required'),
-        start: yup.date().nullable().default(undefined)
-            .transform((curr, orig) => orig === '' ? null : curr)
-            .typeError("Invalid Date")
-            .min(new Date(), 'Please choose future time')
-            .required('This field is required'),
+        start: yup.date()
+            .typeError("This field is required")
+            .min(today, 'Please choose future time')
+            .max(yup.ref('leaveEndDate'),
+                "Event start date can't be after end date"),
         end: yup
-            .date().nullable().default(undefined)
-            .transform((curr, orig) => orig === '' ? null : curr)
-            .typeError("Invalid Date").min(
-                yup.ref('start'),
-                "Event end time can't be before start time"
-            ).required('This field is required'),
+            .date()
+            .typeError("This field is required").min(
+                yup.ref('leaveStartDate'),
+                "Event end date can't be before start date"
+            ),
     })
 
     const { register, handleSubmit, formState } = useForm({ resolver: yupResolver(schema) })
@@ -86,7 +86,7 @@ const CreateEvent = (props) => {
                     />
                     <div style={{ color: "red" }}>{errors.end?.message}</div>
                 </div>
-                <div style={{ margin: "auto" }}><button>Send</button></div>
+                <div style={{ margin: "auto" }}><button>Create</button></div>
             </form>
         </div>
 

@@ -38,12 +38,14 @@ const ChangeProfile = () => {
         const formData = new FormData();
         formData.append('multipartFile', event.refDocument[0]);
         formData.append('email', event.email);
+        formData.append('emergencyEmail', event.emergencyEmail);
         formData.append('mobile', event.mobile);
         formData.append('vaccinatedDose', event.vaccinatedNum);
         formData.append('username', sessionStorage.getItem("username"));
         axios.post(`http://localhost:8080/api/user/changeUserProfile`, formData, config)
             .then(res => {
                 user.email = event.email
+                user.emergencyEmail = event.emergencyEmail
                 user.mobile = event.mobile
                 user.vaccinatedDose = event.vaccinatedNum
                 sessionStorage.setItem("user", JSON.stringify(user))
@@ -61,6 +63,7 @@ const ChangeProfile = () => {
 
     const schema = yup.object().shape({
         email: yup.string().email("Please check the format of the email").min(1, 'This field is required'),
+        emergencyEmail: yup.string().email("Please check the format of the email").min(1, 'This field is required'),
         mobile: yup.string().phone("HK", "Please check if the number is valid").min(1, 'This field is required'),
         vaccinatedNum: yup.number().typeError('This field is required'),
         refDocument: yup.mixed()
@@ -70,8 +73,8 @@ const ChangeProfile = () => {
             .test("type", "Only image can be uploaded", function (ref) {
                 return ref?.[0] && ACCEPTED_IMAGE_TYPES.includes(ref?.[0]?.type);
             })
-            .test("fileSize", "Only accepted files below 1MB", (ref) => {
-                return ref && ref?.[0]?.size <= 1000000;
+            .test("fileSize", "Only accepted files below 2MB", (ref) => {
+                return ref && ref?.[0]?.size <= 2000000;
             }),
     })
     const { handleSubmit, formState, control, register } = useForm({ resolver: yupResolver(schema) })
@@ -147,6 +150,23 @@ const ChangeProfile = () => {
                                                     control={control}
                                                 />
                                                 <div style={{ color: "red" }}>{errors.email?.message}</div>
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <Controller
+                                                    defaultValue={user.emergencyEmail}
+                                                    render={({ field }) => (
+                                                        <TextField
+                                                            {...field}
+                                                            fullWidth
+                                                            id="emergencyEmail"
+                                                            label="Emergency Contact's Email"
+                                                            name="emergencyEmail"
+                                                        />
+                                                    )}
+                                                    name="emergencyEmail"
+                                                    control={control}
+                                                />
+                                                <div style={{ color: "red" }}>{errors.emergencyEmail?.message}</div>
                                             </Grid>
                                             <Grid item xs={12}>
                                                 <Controller

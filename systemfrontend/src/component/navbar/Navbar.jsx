@@ -7,6 +7,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
+import axios from 'axios';
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CommonContext } from '../../Common';
@@ -15,11 +16,23 @@ import './Navbar.scss';
 const Navbar = () => {
   const { resetTimer1, resetTimer2 } = CommonContext()
   const navigate = useNavigate();
+  const config = {
+    headers: {
+      Authorization: 'Bearer ' + sessionStorage.getItem('token')
+    }
+  }
   const logout = () => {
     sessionStorage.clear()
     resetTimer1()
     resetTimer2()
-    navigate("/")
+    axios.get('http://localhost:8080/api/auth/logout', config)
+      .then(res => {
+        console.log(res)
+        navigate("/")
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   const setting = () => {

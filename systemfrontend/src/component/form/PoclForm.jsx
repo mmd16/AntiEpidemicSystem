@@ -30,12 +30,12 @@ const PoclForm = () => {
         imageData.append('closeResult', event.closeResult);
         imageData.append('caseDate', event.caseDate);
         imageData.append('username', sessionStorage.getItem("username"));
+        navigate("/forms/pocl")
         axios.post(`http://localhost:8080/api/form/savePocl`, imageData, config)
             .then(res => {
                 console.log(res)
-                setPoclState(prev => prev + 1)
-                navigate("/forms/pocl")
                 createSuccess()
+                setPoclState(prev => prev + 1)
             })
             .catch(err => {
                 console.log(err)
@@ -51,13 +51,11 @@ const PoclForm = () => {
             .test("type", "Only image is supported", function (ref) {
                 return ref?.[0] && ACCEPTED_IMAGE_TYPES.includes(ref?.[0]?.type);
             })
-            .test("fileSize", "Only accepted files below 1MB", (ref) => {
-                return ref && ref?.[0]?.size <= 1000000;
+            .test("fileSize", "Only accepted files below 2MB", (ref) => {
+                return ref && ref?.[0]?.size <= 2000000;
             }),
-        caseDate: yup.date().nullable().default(undefined)
-            .transform((curr, orig) => orig === '' ? null : curr)
-            .typeError("Wrong format")
-            .required('This field is required'),
+        caseDate: yup.date()
+            .typeError('This field is required')
     })
     const { register, handleSubmit, formState } = useForm({ resolver: yupResolver(schema) })
     const { errors } = formState

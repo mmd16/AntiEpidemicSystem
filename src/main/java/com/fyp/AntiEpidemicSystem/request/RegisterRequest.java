@@ -20,4 +20,5 @@ public class RegisterRequest {
 	private String className;
 	private String role;
 	private String classRole;
+	private String emergencyEmail;
 }

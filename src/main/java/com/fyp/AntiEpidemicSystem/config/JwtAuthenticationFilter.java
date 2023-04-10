@@ -11,6 +11,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.fyp.AntiEpidemicSystem.repository.TokenRepository;
 import com.fyp.AntiEpidemicSystem.service.JwtService;
 
 import jakarta.servlet.FilterChain;
@@ -25,6 +26,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	private final JwtService jwtService;
 	private final UserDetailsService userDetailsService;
+	private final TokenRepository tokenRepository;
 
 	@Override
 	protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
@@ -40,7 +42,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		username = jwtService.extractUsername(jwt);
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 			UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-			if (jwtService.isTokenValid(jwt, userDetails)) {
+			var isValid = tokenRepository.findByToken(jwt).map(t -> !t.isExpired() && !t.isRevoked()).orElse(false);
+			if (jwtService.isTokenValid(jwt, userDetails) && isValid) {
 				UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,
 						null, userDetails.getAuthorities());
 				authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

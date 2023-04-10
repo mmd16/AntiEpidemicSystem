@@ -5,12 +5,14 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.fyp.AntiEpidemicSystem.model.Event;
 import com.fyp.AntiEpidemicSystem.model.User;
 import com.fyp.AntiEpidemicSystem.repository.EventRepository;
+import com.fyp.AntiEpidemicSystem.repository.GroupRepository;
 import com.fyp.AntiEpidemicSystem.repository.UserRepository;
 import com.fyp.AntiEpidemicSystem.response.FormResponse;
 
@@ -19,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class EventServiceImpl implements EventService {
-
 	private final UserRepository userRepository;
 
 	private final EventRepository eventRepository;
@@ -93,11 +94,9 @@ public class EventServiceImpl implements EventService {
 		return FormResponse.builder().msg("Event is created").build();
 	}
 
-
 	@Override
 	public boolean checkIsEditable(String id) {
 		var event = eventRepository.findById(Integer.parseInt(id)).orElseThrow();
 		return event.isEditable();
 	}
-
 }

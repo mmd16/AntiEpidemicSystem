@@ -20,6 +20,7 @@ import com.fyp.AntiEpidemicSystem.response.FormResponse;
 import com.fyp.AntiEpidemicSystem.response.UserSubmittedFormStatusResponse;
 import com.fyp.AntiEpidemicSystem.service.FormService;
 
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -73,14 +74,14 @@ public class FormController {
 	@CrossOrigin(origins = "http://localhost:3000")
 	public ResponseEntity<FormResponse> approveForm(@RequestParam("id") String id,
 			@RequestParam("formCode") String formCode, @RequestParam("username") String username)
-			throws IOException, ParseException {
+			throws IOException, ParseException, MessagingException, InterruptedException {
 		return ResponseEntity.ok(service.approveForm(id, formCode, username));
 	}
 
 	@PostMapping("/rejectForm")
 	@CrossOrigin(origins = "http://localhost:3000")
 	public ResponseEntity<FormResponse> rejectForm(@RequestParam("id") String id,
-			@RequestParam("formCode") String formCode, @RequestParam("username") String username) throws IOException {
+			@RequestParam("formCode") String formCode, @RequestParam("username") String username) throws IOException, MessagingException, InterruptedException {
 		return ResponseEntity.ok(service.rejectForm(id, formCode, username));
 	}
 

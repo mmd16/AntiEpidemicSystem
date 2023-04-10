@@ -9,6 +9,8 @@ import RatForm from "./component/form/RatForm";
 import SlForm from "./component/form/SlForm";
 import Home from "./component/home/Home";
 import Info from "./component/info/Info";
+import GroupList from './component/list/GroupList';
+import InfectedUserList from './component/list/InfectedUserList';
 import PoclFormList from "./component/list/PoclFormList";
 import RatFormList from "./component/list/RatFormList";
 import SlFormList from "./component/list/SlFormList";
@@ -28,6 +30,7 @@ const App = () => (
       <Route path="/signUp" element={<Signup />} />
       <Route element={<ProtectedRoutes />}>
         <Route path="dashboard" element={<Home />} />
+        <Route path="infectedData" element={<InfectedUserList />} />
         <Route path="forms">
           <Route path="rat" element={<RatFormList />} />
           <Route path="pocl" element={<PoclFormList />} />
@@ -43,6 +46,10 @@ const App = () => (
         </Route>
         <Route path="info">
           <Route path="general" element={<Info />} />
+        </Route>
+        <Route path="group">
+          <Route path="general" element={<Info />} />
+          <Route path="groupList" element={<GroupList />} />
         </Route>
         <Route path="admin">
           <Route path="userList" element={<UserList />} />

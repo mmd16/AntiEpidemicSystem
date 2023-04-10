@@ -27,11 +27,11 @@ const RatForm = () => {
     imageData.append('ratResult', event.ratResult);
     imageData.append('ratTestDate', event.ratTestDate);
     imageData.append('username', sessionStorage.getItem("username"));
+    navigate("/forms/rat")
     axios.post(`http://localhost:8080/api/form/saveRat`, imageData, config)
       .then(res => {
         console.log(res)
         createSuccess()
-        navigate("/forms/rat")
         setRatState(prev => prev + 1)
       })
       .catch(err => {
@@ -48,13 +48,11 @@ const RatForm = () => {
       .test("type", "Only image can be uploaded", function (ref) {
         return ref?.[0] && ACCEPTED_IMAGE_TYPES.includes(ref?.[0]?.type);
       })
-      .test("fileSize", "Only accepted files below 1MB", (ref) => {
-        return ref && ref?.[0]?.size <= 1000000;
+      .test("fileSize", "Only accepted files below 2MB", (ref) => {
+        return ref && ref?.[0]?.size <= 2000000;
       }),
-    ratTestDate: yup.date().nullable().default(undefined)
-      .transform((curr, orig) => orig === '' ? null : curr)
-      .typeError("Wrong format")
-      .required('This field is required')
+    ratTestDate: yup.date()
+      .typeError('This field is required')
   })
 
   const { register, handleSubmit, formState } = useForm({ resolver: yupResolver(schema) })

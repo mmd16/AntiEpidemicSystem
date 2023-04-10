@@ -31,7 +31,7 @@ const PoclFormList = () => {
       <Sidebar />
       <div className="listContainer">
         <Navbar />
-        <Datatable fcolumns={formscolumns} fdata={data} routlink="/forms/createPoclForm" title="Positive/ Close Contact Case Report Form" formCode="POCL" isButton={true} isUserList={false}/>
+        <Datatable fcolumns={formscolumns} fdata={data} routlink="/forms/createPoclForm" title="Positive/ Close Contact Case Report Form" formCode="POCL" isButton={true} isUserList={false} isGroupList={false} isCheckBox={false} isMemberList={false}/>
       </div>
     </div>
   )

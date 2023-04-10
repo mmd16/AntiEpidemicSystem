@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,6 +19,8 @@ import com.fyp.AntiEpidemicSystem.model.ClassRole;
 import com.fyp.AntiEpidemicSystem.model.Event;
 import com.fyp.AntiEpidemicSystem.model.Role;
 import com.fyp.AntiEpidemicSystem.model.User;
+import com.fyp.AntiEpidemicSystem.model.UserDTO;
+import com.fyp.AntiEpidemicSystem.model.UserDTOMapper;
 import com.fyp.AntiEpidemicSystem.repository.UserRepository;
 import com.fyp.AntiEpidemicSystem.request.RegisterRequest;
 import com.fyp.AntiEpidemicSystem.response.FormResponse;
@@ -32,6 +35,7 @@ public class UserServiceImpl implements UserService {
 	private final UserRepository userRepository;
 	private final AuthenticationManager authenticationManager;
 	private final PasswordEncoder passwordEncoder;
+	private final UserDTOMapper userDTOMapper;
 
 	@Override
 	public InfectionResponse getPositiveNumber() {
@@ -79,8 +83,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public FormResponse changeUserProfile(MultipartFile multipartFile, String email, String mobile, int vaccinatedDose,
-			String username) throws IOException {
+	public FormResponse changeUserProfile(MultipartFile multipartFile, String email, String emergencyEmail,
+			String mobile, int vaccinatedDose, String username) throws IOException {
 		var user = userRepository.findByUsername(username).orElseThrow();
 		String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 		String uploadDir = String.format("systemfrontend/public/user/%s/", user.getId());
@@ -88,6 +92,7 @@ public class UserServiceImpl implements UserService {
 		String refDir = String.format("/user/%s/%s", user.getId(), fileName);
 		user.setVaccinationRecord(refDir);
 		user.setEmail(email);
+		user.setEmergencyEmail(emergencyEmail);
 		user.setVaccinatedDose(vaccinatedDose);
 		user.setMobile(mobile);
 		userRepository.save(user);
@@ -100,6 +105,7 @@ public class UserServiceImpl implements UserService {
 		user.setClassName(request.getClassName());
 		user.setClassRole(getClassRole(request.getClassRole()));
 		user.setEmail(request.getEmail());
+		user.setEmergencyEmail(request.getEmergencyEmail());
 		user.setFirstname(request.getFirstname());
 		user.setLastname(request.getLastname());
 		user.setMobile(request.getMobile());
@@ -129,8 +135,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> getAllUsers() {
-		return userRepository.findAll();
+	public List<UserDTO> getAllUsers() {
+		return userRepository.findAll().stream().map(userDTOMapper).collect(Collectors.toList());
+	}
+	
+	@Override
+	public List<UserDTO> getAllInfectedUsers() {
+		return userRepository.findAllByIsPositive(true).orElseThrow().stream().map(userDTOMapper).collect(Collectors.toList());
 	}
 
 	@Override

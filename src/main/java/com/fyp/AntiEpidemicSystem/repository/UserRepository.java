@@ -10,8 +10,12 @@ import com.fyp.AntiEpidemicSystem.model.User;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 	Optional<User> findByUsername(String username);
-	
+
 	Optional<List<User>> findAllByClassNameContaining(String className);
-	
+
 	Optional<List<User>> findAllByIsPositiveAndClassRole(boolean isPositive, ClassRole classRole);
+
+	Optional<List<User>> findAllByClassNameAndClassRole(String className, ClassRole classRole);
+
+	Optional<List<User>> findAllByIsPositive(boolean isPositive);
 }

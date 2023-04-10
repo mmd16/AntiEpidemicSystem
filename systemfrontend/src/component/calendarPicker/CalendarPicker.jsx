@@ -30,7 +30,7 @@ const localizer = dateFnsLocalizer({
 const CalendarPicker = () => {
     const [openCreate, setOpenCreate] = useState(false);
     const [openUpdate, setOpenUpdate] = useState(false);
-    const {calState} = CommonContext()
+    const { calState } = CommonContext()
     const [allEvent, setAllEvents] = useState([])
     const selected = useRef({})
 
@@ -57,12 +57,10 @@ const CalendarPicker = () => {
             .then(res => {
                 console.log(res)
                 dataConvert(res.data)
-                // window.location.reload(false)
             })
             .catch(err => {
                 console.log(err)
             })
-        console.log("invoked")
     }, [calState])
 
 
@@ -86,14 +84,13 @@ const CalendarPicker = () => {
                     </div>
                 </div>
                 <div className="bottom">
-
                     <Calendar localizer={localizer} events={allEvent}
                         startAccessor="start" endAccesor="end" style={{ height: 500, margin: "50px" }} onSelectEvent={handleSelected} />
                 </div>
-                <Popup openPopup={openCreate} setOpenPopup={setOpenCreate} title={"Create Event"}>
+                <Popup openPopup={openCreate} setOpenPopup={setOpenCreate} title={"Create Event"} maxWidth={"xl"} fullWidth={false}>
                     <CreateEvent setOpenPopup={setOpenCreate} />
                 </Popup>
-                <Popup openPopup={openUpdate} setOpenPopup={setOpenUpdate} title={"Update Event"}>
+                <Popup openPopup={openUpdate} setOpenPopup={setOpenUpdate} title={"Update Event"} maxWidth={"md"} fullWidth={false}>
                     <UpdateEvent setOpenPopup={setOpenUpdate} selectedEvent={selected.current} />
                 </Popup>
             </div>

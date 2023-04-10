@@ -3,24 +3,12 @@ import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import React from 'react';
 import './popup.scss';
 
+
 const Popup = (props) => {
-    const { title, children, openPopup, setOpenPopup } = props;
+    const { title, children, openPopup, setOpenPopup, maxWidth, fullWidth} = props;
     return (
-        // <Dialog open={openPopup} maxWidth="md" className="dialogWrapper">
-        <Dialog open={openPopup} maxWidth="md"
-            sx={{
-                "& .MuiDialog-container": {
-                    justifyContent: "center",
-                    alignItems: "flex-start",
-                }
-            }}
-            PaperProps={{
-                sx: {
-                    m: 0,
-                    top: 50,
-                    left: 10
-                }
-            }}
+        <Dialog open={openPopup} 
+            maxWidth= {maxWidth} fullWidth={fullWidth}
         >
             <div className="qqq">
                 <DialogTitle className="dialogTitle">

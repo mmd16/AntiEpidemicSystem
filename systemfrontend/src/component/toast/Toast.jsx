@@ -201,7 +201,20 @@ export const passwordDuplicate = () => {
 
 
 export const updateForbidden = () => {
-  toast.warn("Sorry, the current event is not editable", {
+  toast.warn("Sorry, the current event is not editable!", {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  });
+}
+
+export const groupAlreadyExisted = () => {
+  toast.warn("Sorry, the group is already existed!", {
     position: "top-right",
     autoClose: 5000,
     hideProgressBar: false,

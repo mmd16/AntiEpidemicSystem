@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useState } from 'react';
 import { CommonContext } from '../../Common';
 import { approveSuccess, cancelSuccess, rejectSuccess } from '../toast/Toast.jsx';
 import './Preview.scss';
@@ -10,6 +10,7 @@ const SlApproveForm = (props) => {
             Authorization: 'Bearer ' + sessionStorage.getItem('token')
         }
     }
+    const [sendComplete, setComplete] = useState(true);
     const { setSlState } = CommonContext()
     const { selectedRow, setOpenPopup } = props;
     const approveRequest = (e) => {
@@ -24,8 +25,6 @@ const SlApproveForm = (props) => {
             .catch(err => {
                 console.log(err)
             })
-
-        console.log('The link was clicked.');
     }
 
     const rejectRequest = (e) => {
@@ -40,8 +39,6 @@ const SlApproveForm = (props) => {
             .catch(err => {
                 console.log(err)
             })
-
-        console.log('The link was clicked.');
     }
 
     const cancelRequest = (e) => {

@@ -29,6 +29,7 @@ const EditProfile = (props) => {
     firstName: yup.string().min(1, 'This field is required'),
     lastName: yup.string().min(1, 'This field is required'),
     email: yup.string().email("Please check the format of the email").min(1, 'This field is required'),
+    emergencyEmail: yup.string().email("Please check the format of the email").min(1, 'This field is required'),
     mobile: yup.string().phone("HK", "Please check if the number is valid").min(1, 'This field is required'),
     role: yup.string().min(1, 'This field is required'),
     classRole: yup.string().min(1, 'This field is required'),
@@ -57,6 +58,7 @@ const EditProfile = (props) => {
       firstname: data.firstName,
       lastname: data.lastName,
       email: data.email,
+      emergencyEmail: data.emergencyEmail,
       mobile: data.mobile,
       className: `${data.formNumber}${data.class}`,
       username: selectedRow.username,
@@ -128,6 +130,23 @@ const EditProfile = (props) => {
                     control={control}
                   />
                   <div style={{ color: "red" }}>{errors.email?.message}</div>
+                </Grid>
+                <Grid item xs={12}>
+                  <Controller
+                    defaultValue={selectedRow.emergencyEmail}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        fullWidth
+                        id="emergencyEmail"
+                        label="Emergency Contact's Email"
+                        name="emergencyEmail"
+                      />
+                    )}
+                    name="emergencyEmail"
+                    control={control}
+                  />
+                  <div style={{ color: "red" }}>{errors.emergencyEmail?.message}</div>
                 </Grid>
                 <Grid item xs={12}>
                   <Controller

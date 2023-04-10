@@ -31,6 +31,7 @@ const Signup = () => {
         firstName: yup.string().min(1, 'This field is required'),
         lastName: yup.string().min(1, 'This field is required'),
         email: yup.string().email("Please check the format of the email").min(1, 'This field is required'),
+        emergencyEmail:  yup.string().email("Please check the format of the email").min(1, 'This field is required'),
         mobile: yup.string().phone("HK", "Please check if the number is valid").min(1, 'This field is required'),
         username: yup.string().min(1, 'This field is required'),
         password: yup.string().min(1, 'This field is required'),
@@ -86,6 +87,7 @@ const Signup = () => {
             lastname: data.lastName,
             username: data.username,
             email: data.email,
+            emergencyEmail: data.emergencyEmail,
             password: data.password,
             mobile: data.mobile,
             vaccinatedDose: 0,
@@ -163,6 +165,23 @@ const Signup = () => {
                                         />
                                     )}
                                     name="email"
+                                    control={control}
+                                />
+                                <div style={{ color: "red" }}>{errors.email?.message}</div>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Controller
+                                    defaultValue={''}
+                                    render={({ field }) => (
+                                        <TextField
+                                            {...field}
+                                            fullWidth
+                                            id="emergencyEmail"
+                                            label="Emergency Contact's Email"
+                                            name="emergencyEmail"
+                                        />
+                                    )}
+                                    name="emergencyEmail"
                                     control={control}
                                 />
                                 <div style={{ color: "red" }}>{errors.email?.message}</div>

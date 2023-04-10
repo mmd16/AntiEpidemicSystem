@@ -13,6 +13,7 @@ export const Common = ({ children }) => {
     const [slState, setSlState] = useState(0);
     const [userState, setUserState] = useState(0);
     const [calState, setCalState] = useState(0);
+    const [groupState, setGroupState] = useState(0);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -45,7 +46,7 @@ export const Common = ({ children }) => {
 
 
     return (
-        <Context.Provider value={{ ratState, setRatState, poclState, setPoclState, slState, setSlState, userState, setUserState, calState, setCalState, resetTimer1, resetTimer2 }}>
+        <Context.Provider value={{ ratState, setRatState, poclState, setPoclState, slState, setSlState, userState, setUserState, calState, setCalState, resetTimer1, resetTimer2, groupState, setGroupState}}>
             {children}
         </Context.Provider>
     )

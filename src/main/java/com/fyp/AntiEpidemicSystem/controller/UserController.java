@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fyp.AntiEpidemicSystem.model.User;
+import com.fyp.AntiEpidemicSystem.model.UserDTO;
 import com.fyp.AntiEpidemicSystem.request.RegisterRequest;
 import com.fyp.AntiEpidemicSystem.response.FormResponse;
 import com.fyp.AntiEpidemicSystem.response.InfectionResponse;
@@ -43,10 +43,11 @@ public class UserController {
 	@PostMapping("/changeUserProfile")
 	@CrossOrigin(origins = "http://localhost:3000")
 	public ResponseEntity<FormResponse> changeUserProfile(@RequestParam("multipartFile") MultipartFile multipartFile,
-			@RequestParam("email") String email, @RequestParam("mobile") String mobile,
-			@RequestParam("vaccinatedDose") int vaccinatedDose, @RequestParam("username") String username)
-			throws IOException {
-		return ResponseEntity.ok(service.changeUserProfile(multipartFile, email, mobile, vaccinatedDose, username));
+			@RequestParam("email") String email, @RequestParam("emergencyEmail") String emergencyEmail,
+			@RequestParam("mobile") String mobile, @RequestParam("vaccinatedDose") int vaccinatedDose,
+			@RequestParam("username") String username) throws IOException {
+		return ResponseEntity
+				.ok(service.changeUserProfile(multipartFile, email, emergencyEmail, mobile, vaccinatedDose, username));
 	}
 
 	@PostMapping("/editUserProfile")
@@ -57,10 +58,16 @@ public class UserController {
 
 	@GetMapping("/getAllUsers")
 	@CrossOrigin(origins = "http://localhost:3000")
-	public ResponseEntity<List<User>> getAllUsers() {
+	public ResponseEntity<List<UserDTO>> getAllUsers() {
 		return ResponseEntity.ok(service.getAllUsers());
 	}
 
+	@GetMapping("/getAllInfectedUsers")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public ResponseEntity<List<UserDTO>> getAllInfectedUsers() {
+		return ResponseEntity.ok(service.getAllInfectedUsers());
+	}
+	
 	@PostMapping("/changePassword")
 	@CrossOrigin(origins = "http://localhost:3000")
 	public ResponseEntity<FormResponse> changePassword(@RequestParam("prev") String prev,

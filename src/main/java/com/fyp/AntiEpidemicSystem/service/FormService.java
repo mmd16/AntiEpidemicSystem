@@ -12,6 +12,8 @@ import com.fyp.AntiEpidemicSystem.model.Form;
 import com.fyp.AntiEpidemicSystem.response.FormResponse;
 import com.fyp.AntiEpidemicSystem.response.UserSubmittedFormStatusResponse;
 
+import jakarta.mail.MessagingException;
+
 public interface FormService {
 
 	public FormResponse saveRATForm(MultipartFile multipartFile, String ratResult, Date ratTestDate,
@@ -27,9 +29,9 @@ public interface FormService {
 
 	public Optional<Form> fetchform(String id, String formCode);
 
-	public FormResponse approveForm(String id, String formCode, String username) throws ParseException;
+	public FormResponse approveForm(String id, String formCode, String username) throws ParseException, MessagingException, InterruptedException;
 
-	public FormResponse rejectForm(String id, String formCode, String username);
+	public FormResponse rejectForm(String id, String formCode, String username) throws MessagingException, InterruptedException;
 
 	public FormResponse cancelForm(String id, String formCode);
 

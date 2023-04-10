@@ -36,7 +36,7 @@ const FaceMask = () => {
             const casted = resized.cast('int32')
             const expanded = casted.expandDims(0)
             const obj = await net.executeAsync(expanded)
-            console.log(obj)
+            // console.log(obj)
             const boxes = await obj[6].array()
             const classes = await obj[0].array()
             const scores = await obj[4].array()

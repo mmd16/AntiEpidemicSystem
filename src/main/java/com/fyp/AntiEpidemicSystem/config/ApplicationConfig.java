@@ -22,21 +22,21 @@ public class ApplicationConfig {
 	private final UserRepository repository;
 
 	@Bean
-	public UserDetailsService userDetailsService() {
+	public UserDetailsService searchUser() {
 		return username -> repository.findByUsername(username)
-				.orElseThrow(() -> new UsernameNotFoundException("User not found"));
+				.orElseThrow(() -> new UsernameNotFoundException("Sorry, user is not found!"));
 	}
 
 	@Bean
-	public AuthenticationProvider authenticationProvider() {
+	public AuthenticationProvider authProvider() {
 		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-		authProvider.setUserDetailsService(userDetailsService());
+		authProvider.setUserDetailsService(searchUser());
 		authProvider.setPasswordEncoder(passwordEncoder());
 		return authProvider;
 	}
 
 	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+	public AuthenticationManager authManager(AuthenticationConfiguration configuration) throws Exception {
 		return configuration.getAuthenticationManager();
 	}
 

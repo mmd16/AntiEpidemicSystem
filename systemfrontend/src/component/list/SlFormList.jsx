@@ -32,7 +32,7 @@ const SlFormList = () => {
             <Sidebar />
             <div className="listContainer">
                 <Navbar />
-                <Datatable fcolumns={formscolumns} fdata={data} routlink="/forms/createSlForm" title="Sick Leave Application Form" formCode="SL" isButton={true} isUserList={false}/>
+                <Datatable fcolumns={formscolumns} fdata={data} routlink="/forms/createSlForm" title="Sick Leave Application Form" formCode="SL" isButton={true} isUserList={false} isGroupList={false} isCheckBox={false} isMemberList={false}/>
             </div>
         </div>
     )

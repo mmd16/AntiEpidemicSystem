@@ -32,7 +32,7 @@ const UserList = () => {
             <Sidebar />
             <div className="listContainer">
                 <Navbar />
-                <Datatable fcolumns={userscolumns} fdata={data} routlink="/admin/userList" title="Edit User Profile" formCode="SL" isButton={false} isUserList={true}/>
+                <Datatable fcolumns={userscolumns} fdata={data} routlink="/admin/userList" title="Edit User Profile" formCode="SL" isButton={false} isUserList={true} isGroupList={false} isCheckBox={false} isMemberList={false}/>
             </div>
         </div>
     )

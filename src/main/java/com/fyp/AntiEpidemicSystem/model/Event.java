@@ -31,7 +31,7 @@ public class Event {
 	private Date end;
 	private boolean IsActive;
 	private boolean isEditable;
-	
+
 	public void clearUsers() {
 		users.clear();
 	}
@@ -52,7 +52,6 @@ public class Event {
 		this.title = title;
 	}
 
-
 	public boolean isIsActive() {
 		return IsActive;
 	}
@@ -68,7 +67,6 @@ public class Event {
 	public void setUsers(Set<User> users) {
 		this.users = users;
 	}
-
 
 	public Date getStart() {
 		return start;
@@ -89,11 +87,10 @@ public class Event {
 	public void addUser(User user) {
 		users.add(user);
 	}
-	
+
 	public void RemoveUser(User user) {
 		users.add(user);
 	}
-	
 
 	public boolean isEditable() {
 		return isEditable;
@@ -103,8 +100,8 @@ public class Event {
 		this.isEditable = isEditable;
 	}
 
-
 	@ManyToMany(mappedBy = "events", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonIgnore
 	Set<User> users;
+
 }

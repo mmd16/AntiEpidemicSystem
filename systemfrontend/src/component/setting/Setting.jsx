@@ -23,7 +23,6 @@ const Setting = () => {
         return rslt
     }
     const formscolumns = [
-        // { field: 'sid', headerName: 'SID', width: 260 },
         { field: 'formName', headerName: 'Form Title', width: 1200 },
         {
             field: 'formStatus', headerName: 'Status', width: 360,
@@ -38,6 +37,13 @@ const Setting = () => {
         headers: {
             Authorization: 'Bearer ' + sessionStorage.getItem('token')
         }
+    }
+    const getGroupsName = (groups) =>{
+        const rslt = []
+        groups.map((e)=>{
+            rslt.push(e.name)
+        })
+        return rslt.join(", ")
     }
     useEffect(() => {
         axios.get(`http://localhost:8080/api/form/gatherStatus?username=${sessionStorage.getItem("username")}`, config)
@@ -107,6 +113,12 @@ const Setting = () => {
                                     </span>
                                 </div>
                                 <div className="detailItem">
+                                    <span className="itemKey">Groups:</span>
+                                    <span className="itemValue">
+                                        {getGroupsName(user.groups)}
+                                    </span>
+                                </div>
+                                <div className="detailItem">
                                     <span className="itemKey">VaccinatedDose:</span>
                                     <span className="itemValue">
                                         {user.vaccinatedDose}
@@ -115,12 +127,9 @@ const Setting = () => {
                             </div>
                         </div>
                     </div>
-                    {/* <div className="right">
-                        <Chart aspect={3 / 1} title="User Spending ( Last 6 Months)" />
-                    </div> */}
                 </div>
                 <div className="bottom">
-                    <Datatable fcolumns={formscolumns} fdata={data} routlink="" title="To Do List" formCode="SL" isButton={false} isUserList={false} />
+                    <Datatable fcolumns={formscolumns} fdata={data} routlink="" title="To Do List" formCode="SL" isButton={false} isUserList={false} isGroupList={false} isCheckBox={false} isMemberList={false}/>
                 </div>
             </div>
         </div>

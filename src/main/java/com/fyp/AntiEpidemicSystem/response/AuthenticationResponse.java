@@ -1,6 +1,6 @@
 package com.fyp.AntiEpidemicSystem.response;
 
-import com.fyp.AntiEpidemicSystem.model.User;
+import com.fyp.AntiEpidemicSystem.model.UserDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,6 +15,6 @@ public class AuthenticationResponse {
 
 	private String token;
 
-	private User user;
+	private UserDTO user;
 
 }

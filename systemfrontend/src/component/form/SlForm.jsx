@@ -24,6 +24,7 @@ const SlForm = () => {
     const ACCEPTED_IMAGE_TYPES = ["image/png", "image/webp", "image/jpeg", "image/jpg"];
     const navigate = useNavigate();
     const onSubmit = (event) => {
+        console.log(event)
         const imageData = new FormData();
         imageData.append('image', event.leaveRef[0]);
         imageData.append('leaveReason', event.leaveReason);
@@ -51,21 +52,20 @@ const SlForm = () => {
             .test("type", "Only image is supported", function (ref) {
                 return ref?.[0] && ACCEPTED_IMAGE_TYPES.includes(ref?.[0]?.type);
             })
-            .test("fileSize", "Only accepted files below 1MB", (ref) => {
-                return ref && ref?.[0]?.size <= 1000000;
+            .test("fileSize", "Only accepted files below 2MB", (ref) => {
+                return ref && ref?.[0]?.size <= 2000000;
             }),
-        leaveStartDate: yup.date().nullable().default(undefined)
-            .transform((curr, orig) => orig === '' ? null : curr)
-            .typeError("Wrong format")
-            .min(today, 'Please choose the day after today')
-            .required('This field is required'),
+        leaveStartDate: yup.date()
+            .typeError("This field is required")
+            .min(today, 'Please choose future time')
+            .max( yup.ref('leaveEndDate'),
+            "Leave start date can't be after end date"),
         leaveEndDate: yup
-            .date().nullable().default(undefined)
-            .transform((curr, orig) => orig === '' ? null : curr)
-            .typeError("Wrong format").min(
+            .date()
+            .typeError("This field is required").min(
                 yup.ref('leaveStartDate'),
-                "Leave ending date can't be before start date"
-            ).required('This field is required'),
+                "Leave end date can't be before start date"
+            ),
     })
 
     const { register, handleSubmit, formState } = useForm({ resolver: yupResolver(schema) })

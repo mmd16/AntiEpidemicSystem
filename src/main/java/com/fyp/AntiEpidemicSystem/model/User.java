@@ -40,11 +40,11 @@ public class User implements UserDetails {
 	private String lastname;
 	private String username;
 	private String email;
+	private String emergencyEmail;
 	private String password;
 	private String mobile;
 	private String className;
 	private Integer vaccinatedDose;
-	private boolean isSickLeave;
 	private boolean isPositive;
 
 	@Column(nullable = true, length = 64)
@@ -59,6 +59,10 @@ public class User implements UserDetails {
 	@ManyToMany()
 	@JoinTable(name = "user_events", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "event_id", referencedColumnName = "id"))
 	private Set<Event> events;
+
+	@ManyToMany()
+	@JoinTable(name = "user_groups", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "group_id", referencedColumnName = "id"))
+	private Set<Group> groups;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -107,6 +111,14 @@ public class User implements UserDetails {
 
 	public void removeEvent(Event event) {
 		events.remove(event);
+	}
+
+	public void addGroup(Group group) {
+		groups.add(group);
+	}
+
+	public void removeGroup(Group group) {
+		groups.remove(group);
 	}
 
 	public Integer getId() {
@@ -205,14 +217,6 @@ public class User implements UserDetails {
 		this.vaccinationRecord = vaccinationRecord;
 	}
 
-	public boolean isSickLeave() {
-		return isSickLeave;
-	}
-
-	public void setSickLeave(boolean isSickLeave) {
-		this.isSickLeave = isSickLeave;
-	}
-
 	public boolean isPositive() {
 		return isPositive;
 	}
@@ -220,5 +224,21 @@ public class User implements UserDetails {
 	public void setPositive(boolean isPositive) {
 		this.isPositive = isPositive;
 	}
-	
+
+	public String getEmergencyEmail() {
+		return emergencyEmail;
+	}
+
+	public void setEmergencyEmail(String emergencyEmail) {
+		this.emergencyEmail = emergencyEmail;
+	}
+
+	public Set<Group> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(Set<Group> groups) {
+		this.groups = groups;
+	}
+
 }

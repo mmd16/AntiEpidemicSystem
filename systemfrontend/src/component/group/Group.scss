@@ -1,0 +1,141 @@
+h1 {
+    color: #888;
+    font-size: 20px;
+    font-weight: normal;
+}
+
+h3 {
+    color: #2b2b2b;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+form {
+    max-width: 320px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    flex-direction: column;
+    justify-content: space-between;
+
+    button {
+        margin-left: auto;
+        width: 150px;
+        padding: 10px;
+        border: none;
+        background-color: rgb(75, 75, 75);
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 10px;
+        font-size: 20px;
+        position: relative;
+        bottom: 2%;
+    }
+
+    button:hover {
+        background-color: rgb(41, 40, 40);
+    }
+    
+    .formInput {
+        width: 100%;
+
+        label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+            font-size: 20px;
+            color: #7e7d7d;
+
+            .icon {
+                cursor: pointer;
+            }
+        }
+
+        input {
+            color: black;
+            font-size: 10px;
+        }
+        
+        input[type="text"] {
+            width: 95%;
+            appearance: none;
+            -webkit-appearance: none;
+            color: #95a5a6;
+            font-size: 18px;
+            border: 1px solid #ecf0f1;
+            background: #ecf0f1;
+            padding: 5px;
+            display: inline-block !important;
+            visibility: visible !important;
+        }
+
+        /* Removes the clear button from date inputs */
+        input[type="datetime-local"]::-webkit-clear-button {
+            display: none;
+        }
+
+        /* Removes the spin button */
+        input[type="datetime-local"]::-webkit-inner-spin-button {
+            display: none;
+        }
+
+        /* Always display the drop down caret */
+        input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+
+            color: rgb(41, 40, 40);
+        }
+
+        /* A few custom styles for date inputs */
+        input[type="datetime-local"] {
+            width: 95%;
+            appearance: none;
+            -webkit-appearance: none;
+            color: #95a5a6;
+            font-size: 18px;
+            border: 1px solid #ecf0f1;
+            background: #ecf0f1;
+            padding: 5px;
+            display: inline-block !important;
+            visibility: visible !important;
+        }
+
+        input[type="datetime-local"],
+        focus {
+            color: #95a5a6;
+            box-shadow: none;
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+        }
+    }
+}
+
+.buttonClass{
+    display: flex;
+    gap: 20px;
+    padding-left: 15px;
+    button {
+        margin-top: auto;
+        width: 200px;
+        padding: 10px;
+        border: none;
+        background-color: rgb(75, 75, 75);
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 10px;
+        font-size: 20px;
+        position: relative;
+        bottom: 2%;
+    }
+
+    button:hover {
+        background-color: rgb(41, 40, 40);
+    }
+}
+
+.groupBox{
+    display: flex;
+    flex-direction: column;
+}

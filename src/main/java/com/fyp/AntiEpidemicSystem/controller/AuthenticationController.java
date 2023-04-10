@@ -43,18 +43,4 @@ public class AuthenticationController {
 		return ResponseEntity.ok(service.checkIfExist(username));
 	}
 
-	@PostMapping("/upgrade")
-	@CrossOrigin(origins = "http://localhost:3000")
-	public ResponseEntity<AuthenticationResponse> upgrade(@RequestBody AuthenticationRequest request) {
-		return ResponseEntity.ok(service.upgrade(request));
-
-	}
-
-	@PostMapping("/addClassName")
-	@CrossOrigin(origins = "http://localhost:3000")
-	public ResponseEntity<AuthenticationResponse> addClassName(@RequestParam("username") String username,
-			@RequestParam("className") String className) {
-		return ResponseEntity.ok(service.addClassName(username, className));
-	}
-
 }
