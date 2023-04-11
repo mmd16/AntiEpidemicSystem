@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { autoSignOutNotification } from './component/toast/Toast.jsx';
+import axios from 'axios';
 
 const Context = createContext()
 
@@ -17,7 +18,7 @@ export const Common = ({ children }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(sessionStorage.getItem("isLogin")!==null){
+        if (sessionStorage.getItem("isLogin") !== null) {
             handleLogoutTimer()
         }
     }, [sessionStorage.getItem("isLogin")])
@@ -32,10 +33,22 @@ export const Common = ({ children }) => {
     };
 
     const handleLogoutTimer = () => {
+        const config = {
+            headers: {
+                Authorization: 'Bearer ' + sessionStorage.getItem('token')
+            }
+        }
         timer = setTimeout(() => {
-            resetTimer1();
-            navigate("/")
             sessionStorage.clear()
+            resetTimer1();
+            axios.get('http://localhost:8080/api/auth/logout', config)
+                .then(res => {
+                    console.log(res)
+                    navigate("/")
+                })
+                .catch(err => {
+                    console.log(err)
+                })
         }, parseInt(sessionStorage.getItem("loginExpired"), 10) - new Date().getTime());
 
         timer2 = setTimeout(() => {
@@ -46,7 +59,7 @@ export const Common = ({ children }) => {
 
 
     return (
-        <Context.Provider value={{ ratState, setRatState, poclState, setPoclState, slState, setSlState, userState, setUserState, calState, setCalState, resetTimer1, resetTimer2, groupState, setGroupState}}>
+        <Context.Provider value={{ ratState, setRatState, poclState, setPoclState, slState, setSlState, userState, setUserState, calState, setCalState, resetTimer1, resetTimer2, groupState, setGroupState }}>
             {children}
         </Context.Provider>
     )
