@@ -22,12 +22,16 @@ import ChangeProfile from "./component/setting/ChangeProfile";
 import EditProfile from "./component/setting/EditProfile";
 import Setting from "./component/setting/Setting";
 import ProtectedRoutes from "./ProtectedRoutes";
+import ForgetPassword from './component/login/ForgetPassword';
+import UpdatePassword from './component/login/UpdatePassword';
 
 const App = () => (
   <div className="App">
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/signUp" element={<Signup />} />
+      <Route path="/forgetPassword" element={<ForgetPassword />} />
+      <Route path="/updatePassword" element={<UpdatePassword />} />
       <Route element={<ProtectedRoutes />}>
         <Route path="dashboard" element={<Home />} />
         <Route path="infectedData" element={<InfectedUserList />} />

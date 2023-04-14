@@ -26,5 +26,5 @@ public interface UserService {
 	public FormResponse changePassword(String prev, String latest, String username);
 
 	public List<UserDTO> getAllInfectedUsers();
-	
+
 }

@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fyp.AntiEpidemicSystem.request.AuthenticationRequest;
 import com.fyp.AntiEpidemicSystem.request.RegisterRequest;
 import com.fyp.AntiEpidemicSystem.response.AuthenticationResponse;
+import com.fyp.AntiEpidemicSystem.response.FormResponse;
 import com.fyp.AntiEpidemicSystem.response.RegisterResponse;
 import com.fyp.AntiEpidemicSystem.service.AuthenticationService;
 
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -43,4 +45,17 @@ public class AuthenticationController {
 		return ResponseEntity.ok(service.checkIfExist(username));
 	}
 
+	@PostMapping("/changePasswordEmail")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public ResponseEntity<FormResponse> changePassword(@RequestParam("password") String latest,
+			@RequestParam("username") String username) {
+		return ResponseEntity.ok(service.changePassword(latest, username));
+	}
+
+	@PostMapping("/forgetPassword")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public ResponseEntity<FormResponse> forgetPassword(@RequestParam("username") String username)
+			throws MessagingException, InterruptedException {
+		return ResponseEntity.ok(service.forgetPassword(username));
+	}
 }

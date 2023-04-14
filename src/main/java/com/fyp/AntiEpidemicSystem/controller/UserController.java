@@ -67,11 +67,12 @@ public class UserController {
 	public ResponseEntity<List<UserDTO>> getAllInfectedUsers() {
 		return ResponseEntity.ok(service.getAllInfectedUsers());
 	}
-	
+
 	@PostMapping("/changePassword")
 	@CrossOrigin(origins = "http://localhost:3000")
 	public ResponseEntity<FormResponse> changePassword(@RequestParam("prev") String prev,
 			@RequestParam("latest") String latest, @RequestParam("username") String username) {
 		return ResponseEntity.ok(service.changePassword(prev, latest, username));
 	}
+
 }

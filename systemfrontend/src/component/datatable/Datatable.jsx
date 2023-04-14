@@ -49,7 +49,7 @@ const Datatable = ({ fcolumns, fdata, routlink, title, formCode, isButton, isUse
             field: "action", headerName: "Action", width: 130, renderCell: () => {
                 return (
                     <div className="cellAction">
-                        <Button onClick={() => { setOpenUserPopup(true) }}><div className="viewButton">View</div></Button>
+                        <Button onClick={() => { setOpenUserPopup(true) }}><div className="viewButton">Modify</div></Button>
                     </div>
                 )
             }

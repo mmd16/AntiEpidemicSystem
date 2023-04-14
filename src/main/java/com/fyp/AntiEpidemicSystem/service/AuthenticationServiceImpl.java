@@ -2,6 +2,7 @@ package com.fyp.AntiEpidemicSystem.service;
 
 import java.util.HashSet;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,13 +17,16 @@ import com.fyp.AntiEpidemicSystem.model.Token;
 import com.fyp.AntiEpidemicSystem.model.TokenType;
 import com.fyp.AntiEpidemicSystem.model.User;
 import com.fyp.AntiEpidemicSystem.model.UserDTOMapper;
+import com.fyp.AntiEpidemicSystem.repository.EventRepository;
 import com.fyp.AntiEpidemicSystem.repository.TokenRepository;
 import com.fyp.AntiEpidemicSystem.repository.UserRepository;
 import com.fyp.AntiEpidemicSystem.request.AuthenticationRequest;
 import com.fyp.AntiEpidemicSystem.request.RegisterRequest;
 import com.fyp.AntiEpidemicSystem.response.AuthenticationResponse;
+import com.fyp.AntiEpidemicSystem.response.FormResponse;
 import com.fyp.AntiEpidemicSystem.response.RegisterResponse;
 
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -31,8 +35,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	private final UserRepository userRepository;
 	private final TokenRepository tokenRepository;
+	private final EventRepository eventRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final JwtService jwtService;
+	private final EmailService emailService;
 	private final AuthenticationManager authenticationManager;
 	private final UserDTOMapper userDTOMapper;
 
@@ -43,7 +49,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				.password(passwordEncoder.encode(request.getPassword())).role(getUserRole(request.getRole()))
 				.mobile(request.getMobile()).vaccinatedDose(request.getVaccinatedDose())
 				.classRole(getUserClassRole(request.getClassRole())).className(request.getClassName())
-				.events(new HashSet<Event>()).emergencyEmail(request.getEmergencyEmail()).groups(new HashSet<Group>())
+				.events(initialiseEvent()).emergencyEmail(request.getEmergencyEmail()).groups(new HashSet<Group>())
 				.build();
 		userRepository.save(user);
 		return RegisterResponse.builder().msg("The registration is completed").build();
@@ -58,6 +64,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		revokeAllToken(user);
 		saveToken(user, token);
 		return AuthenticationResponse.builder().token(token).user(userDTOMapper.apply(user)).build();
+	}
+
+	private HashSet<Event> initialiseEvent() {
+		var eventList = eventRepository.findAll().stream().filter(s -> !s.getTitle().equalsIgnoreCase("Sick Leave"))
+				.collect(Collectors.toList());
+		return new HashSet<Event>(eventList);
 	}
 
 	private Role getUserRole(String role) {
@@ -108,4 +120,28 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		});
 		tokenRepository.saveAll(validTokens);
 	}
+
+	@Override
+	public FormResponse changePassword(String latest, String username) {
+		var user = userRepository.findByUsername(username).orElseThrow();
+		user.setPassword(passwordEncoder.encode(latest));
+		userRepository.save(user);
+		return FormResponse.builder().msg("Password has been successfully changed").build();
+	}
+
+	@Override
+	public FormResponse forgetPassword(String username) throws MessagingException, InterruptedException {
+		var user = userRepository.findByUsername(username).orElseThrow();
+		emailService.sendEmail(user.getEmail(), "Information regarding forget Password",
+				generateForgetPasswordTemplate(String.format("%s %s", user.getFirstname(), user.getLastname())));
+		return FormResponse.builder().msg("Password reset link has been sent").build();
+	}
+
+	private String generateForgetPasswordTemplate(String re) {
+		String template = String.format("Dear %s\n\nPlease reset your password by the following link.\n"
+				+ "http://localhost:3000/updatePassword\n\n" + "Best regards,\n" + "General Office\n"
+				+ "Poki Secondary School", re);
+		return template;
+	}
+
 }

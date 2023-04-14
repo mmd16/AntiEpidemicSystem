@@ -42,6 +42,7 @@ const ChangeProfile = () => {
         formData.append('mobile', event.mobile);
         formData.append('vaccinatedDose', event.vaccinatedNum);
         formData.append('username', sessionStorage.getItem("username"));
+        navigate("/user/settings")
         axios.post(`http://localhost:8080/api/user/changeUserProfile`, formData, config)
             .then(res => {
                 user.email = event.email
@@ -51,7 +52,6 @@ const ChangeProfile = () => {
                 sessionStorage.setItem("user", JSON.stringify(user))
                 console.log(res)
                 setUserState(prev => prev + 1)
-                navigate("/user/settings")
                 ModifySuccess()
             })
             .catch(err => {

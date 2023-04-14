@@ -44,8 +44,8 @@ const Login = () => {
         })
     }
   };
-  
-  const setLoginData = (res) =>{
+
+  const setLoginData = (res) => {
     sessionStorage.setItem("loginExpired", new Date().getTime() + 7200000)
     sessionStorage.setItem("remindTime", new Date().getTime() + 6600000)
     sessionStorage.setItem("token", res.data.token)
@@ -140,9 +140,14 @@ const Login = () => {
               </Button>
               <Grid container>
                 <Grid item>
-                  <Link href="/signUp" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <Link href="/signUp" variant="body2" style={{marginBottom: "15px"}}>
+                      {"Don't have an account? Sign Up"}
+                    </Link>
+                    <Link href="/forgetPassword" variant="body2">
+                      {"Forget Password"}
+                    </Link>
+                  </div>
                 </Grid>
               </Grid>
             </Box>

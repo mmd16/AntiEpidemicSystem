@@ -35,6 +35,7 @@ public class UserServiceImpl implements UserService {
 	private final UserRepository userRepository;
 	private final AuthenticationManager authenticationManager;
 	private final PasswordEncoder passwordEncoder;
+	private final EmailService emailService;
 	private final UserDTOMapper userDTOMapper;
 
 	@Override
@@ -152,5 +153,5 @@ public class UserServiceImpl implements UserService {
 		userRepository.save(user);
 		return FormResponse.builder().msg("Password has been successfully changed").build();
 	}
-
+	
 }
