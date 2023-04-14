@@ -186,6 +186,19 @@ export const changePasswordFail = () => {
   });
 }
 
+export const changePasswordSuccess = () => {
+  toast.success("The password has been changed!", {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  });
+}
+
 export const passwordDuplicate = () => {
   toast.warn("Failed to change to new password, please ensure that your new password is different from the original one!", {
     position: "top-right",
@@ -215,6 +228,19 @@ export const updateForbidden = () => {
 
 export const groupAlreadyExisted = () => {
   toast.warn("Sorry, the group is already existed!", {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  });
+}
+
+export const resetPasswordEmail = () => {
+  toast.info("The Reset Password Email has been sent!", {
     position: "top-right",
     autoClose: 5000,
     hideProgressBar: false,
